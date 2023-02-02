@@ -6,6 +6,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from '../config/theme';
 import createEmotionCache from '../config/createEmotionCache';
 import '@/styles/globals.css'
+import 'react-circular-progressbar/dist/styles.css';
 
 
 

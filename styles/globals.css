@@ -65,3 +65,7 @@ a {
     color-scheme: dark;
   }
 }
+
+.CircularProgressbar .CircularProgressbar-path{
+  stroke:#499557 !important;
+}

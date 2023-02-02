@@ -1,4 +1,3 @@
-import { LinearProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 
@@ -42,7 +41,7 @@ const Banner = () => {
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
-    setInterval(() => {
+    let interval = setInterval(() => {
       console.log("data.length", data.length);
       console.log("index", index + 1);
       if (index > data.length) {
@@ -56,6 +55,10 @@ const Banner = () => {
         }
       }
     }, 4950);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [index]);
 
   return (
@@ -97,7 +100,7 @@ const Banner = () => {
                       style={{
                         fontSize: "18px",
                         fontWeight: "bold",
-                        color: "#499557",
+                        color: index - 1 === id ? "black" : "#499557",
                       }}
                     >
                       {" "}
