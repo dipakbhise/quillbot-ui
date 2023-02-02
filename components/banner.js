@@ -1,0 +1,172 @@
+import { LinearProgress, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles({
+  "& .MuiLinearProgress-bar-1": {
+    // apply a new animation-duration to the `.bar` class
+    animationDuration: "8s",
+  },
+});
+
+const data = [
+  {
+    text: "Increase your productivity",
+    desc: "Paraphrase more text at once to finish writing faster.",
+    id: 1,
+    url: "https://assets.quillbot.com/images/theme/light/premiumPage/newAvailableWord.svg",
+  },
+  {
+    text: "Access all modes",
+    desc: "Get maximum control over how you paraphrase.",
+    id: 2,
+    url: "https://assets.quillbot.com/images/theme/light/premiumPage/synonym.svg",
+  },
+  {
+    text: "Scan for plagiarism",
+    desc: "Unlock the Plagiarism Checker to guarantee all sources are cited and nothing is unintentionally plagiarized.",
+    id: 3,
+    url: "https://assets.quillbot.com/images/theme/commonImages/plagiarismChecker/plag-premium.svg",
+  },
+  {
+    text: "Compare all mode outputs at once",
+    desc: "Paraphrase in and compare outputs from all seven modes.",
+    id: 4,
+    url: "https://assets.quillbot.com/images/theme/commonImages/premiumPage/comparisonTable.svg",
+  },
+];
+
+const Banner = () => {
+  const classes = useStyles();
+
+  const [index, setIndex] = useState(1);
+
+  useEffect(() => {
+    setInterval(() => {
+      console.log("data.length", data.length);
+      console.log("index", index + 1);
+      if (index > data.length) {
+        setIndex(0);
+      } else {
+        console.log("index", index);
+        if (index + 1 <= data.length) {
+          setIndex(index + 1);
+        } else {
+          setIndex(1);
+        }
+      }
+    }, 4950);
+  }, [index]);
+
+  return (
+    <div>
+      <div
+        style={{
+          background:
+            "url(https://assets.quillbot.com/images/theme/light/premiumPage/topBg.svg)",
+          backgroundSize: "auto 99%",
+          backgroundPosition: "left bottom",
+          backgroundRepeat: "no-repeat",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            width: "100%",
+          }}
+        >
+          <div style={{ marginBottom: "70px", marginTop: "-24px" }}>
+            <img src={data[index - 1]?.url} alt="available Words" />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginLeft: "70px",
+            }}
+          >
+            {data?.map((item, id) => (
+              <>
+                <div style={{ marginBottom: "20px", width: "50%" }}>
+                  <div>
+                    <span
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#499557",
+                      }}
+                    >
+                      {" "}
+                      {item.text}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "1rem",
+                      margin: "5px 0px 10px",
+                      lineHeight: "22px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "1rem",
+                        color: "#505050",
+                      }}
+                    >
+                      {" "}
+                      {item.desc}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      width: "auto",
+                      position: "relative",
+                      height: "3px",
+                      backgroundColor: "rgb(222, 225, 227)",
+                    }}
+                  >
+                    <div
+                      id={index - 1 === id ? "line_l" : null}
+                      duration="4.95s"
+                      style={{
+                        display: "block",
+                        height: "3px",
+                        position: "absolute",
+                        top: "0px",
+                        backgroundColor: "#499557",
+                        animationDuration: "4.95s",
+                        width: "auto",
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        #line_l {
+          -webkit-animation: line_l_animation 4.95s infinite;
+          animation: line_l_animation 4.95s infinite;
+        }
+
+        @-webkit-keyframes line_l_animation {
+          0% {
+            width: 0px;
+          }
+          100% {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Banner;
