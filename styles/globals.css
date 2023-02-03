@@ -1,4 +1,7 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -36,7 +39,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: 'Open Sans' !important;
 }
 
 html,
@@ -68,4 +71,10 @@ a {
 
 .CircularProgressbar .CircularProgressbar-path{
   stroke:#499557 !important;
+}
+
+.CircularProgressbar .CircularProgressbar-text{
+  fill:rgb(73, 149, 87) !important;
+  font-weight: bold !important;
+  font-size:30px !important;
 }

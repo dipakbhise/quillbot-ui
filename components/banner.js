@@ -1,12 +1,13 @@
+import { useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles({
-  "& .MuiLinearProgress-bar-1": {
-    // apply a new animation-duration to the `.bar` class
-    animationDuration: "8s",
-  },
-});
+// const useStyles = makeStyles({
+//   "& .MuiLinearProgress-bar-1": {
+//     // apply a new animation-duration to the `.bar` class
+//     animationDuration: "8s",
+//   },
+// });
 
 const data = [
   {
@@ -36,8 +37,8 @@ const data = [
 ];
 
 const Banner = () => {
-  const classes = useStyles();
-
+  // const classes = useStyles();
+  const matches = useMediaQuery("@media (max-width:1300px)");
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
@@ -71,6 +72,7 @@ const Banner = () => {
           backgroundPosition: "left bottom",
           backgroundRepeat: "no-repeat",
           width: "100%",
+          height: matches && '27rem'
         }}
       >
         <div
@@ -81,8 +83,12 @@ const Banner = () => {
             width: "100%",
           }}
         >
-          <div style={{ marginBottom: "70px", marginTop: "-24px" }}>
-            <img src={data[index - 1]?.url} alt="available Words" />
+          <div style={{ marginBottom: "70px", marginTop: "-10px" }}>
+            <img
+              src={data[index - 1]?.url}
+              alt="available Words"
+              style={{ width: matches ? '21rem' : "35rem", height: matches ? '13rem' : "23rem" }}
+            />
           </div>
 
           <div
@@ -92,19 +98,19 @@ const Banner = () => {
               marginLeft: "70px",
             }}
           >
-            {data?.map((item, id) => (
+            {matches ? (
               <>
-                <div style={{ marginBottom: "20px", width: "50%" }}>
+                <div style={{ marginBottom: "20px", width: matches ? '80%':"50%" }}>
                   <div>
                     <span
                       style={{
                         fontSize: "18px",
                         fontWeight: "bold",
-                        color: index - 1 === id ? "black" : "#499557",
+                        color:  "black" 
                       }}
                     >
                       {" "}
-                      {item.text}
+                      {data[index - 1]?.text}
                     </span>
                   </div>
                   <div
@@ -121,7 +127,7 @@ const Banner = () => {
                       }}
                     >
                       {" "}
-                      {item.desc}
+                      {data[index-1]?.desc}
                     </span>
                   </div>
                   <div
@@ -133,7 +139,7 @@ const Banner = () => {
                     }}
                   >
                     <div
-                      id={index - 1 === id ? "line_l" : null}
+                      id={"line_l"}
                       duration="4.95s"
                       style={{
                         display: "block",
@@ -147,8 +153,66 @@ const Banner = () => {
                     ></div>
                   </div>
                 </div>
-              </>
-            ))}
+              </>) : (
+              data?.map((item, id) => (
+                <>
+                  {" "}
+                  <div style={{ marginBottom: "20px", width: "50%" }}>
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          color: index - 1 === id ? "black" : "#499557",
+                        }}
+                      >
+                        {" "}
+                        {item.text}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "1rem",
+                        margin: "5px 0px 10px",
+                        lineHeight: "22px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "1rem",
+                          color: "#505050",
+                        }}
+                      >
+                        {" "}
+                        {item.desc}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        width: "auto",
+                        position: "relative",
+                        height: "3px",
+                        backgroundColor: "rgb(222, 225, 227)",
+                      }}
+                    >
+                      <div
+                        id={index - 1 === id ? "line_l" : null}
+                        duration="4.95s"
+                        style={{
+                          display: "block",
+                          height: "3px",
+                          position: "absolute",
+                          top: "0px",
+                          backgroundColor: "#499557",
+                          animationDuration: "4.95s",
+                          width: "auto",
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                </>
+              ))
+            )}
           </div>
         </div>
       </div>

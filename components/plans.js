@@ -1,9 +1,11 @@
 import { pricingPlans } from "@/utils/utils";
+import { InfoOutlined } from "@mui/icons-material";
 import { Button, useMediaQuery } from "@mui/material";
 import React from "react";
+import TooltipComp from "./tooltip";
 
 const Plans = () => {
-  const matches = useMediaQuery("@media (max-width:700px)");
+  const matches = useMediaQuery("@media (max-width:975px)");
 
   return (
     <>
@@ -12,7 +14,7 @@ const Plans = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          margin: "46px 0px",
+          margin: "46px 7px",
         }}
       >
         <span
@@ -20,7 +22,7 @@ const Plans = () => {
             fontWeight: "normal",
             fontSize: "30px",
             letterSpacing: "-0.03em",
-            textAlign:'center'  
+            textAlign: "center",
           }}
         >
           Experience the full power of QuillBot
@@ -35,6 +37,7 @@ const Plans = () => {
           alignItems: "center",
           width: "100%",
           marginBottom: "10px",
+          flexDirection: matches && 'column-reverse'
         }}
       >
         {pricingPlans.map((item, index) => (
@@ -42,11 +45,12 @@ const Plans = () => {
             <div
               style={{
                 border: "1px solid #DEE1E3",
-                marginRight: matches ? '0px' : "40px",
-                width: "25rem",
+                marginRight: matches ? "0px" : "40px",
+                width: matches ? '100%': "29rem",
                 boxShadow: "0px 4px 22px 0px #00000033",
                 borderRadius: "10px",
-                marginBottom: matches && pricingPlans.length != index + 1 ? '40px' : "5px",
+                marginBottom:
+                  matches && pricingPlans.length != index  ? "40px" : "5px",
               }}
             >
               <div
@@ -98,19 +102,19 @@ const Plans = () => {
                 </Button>
               </div>
 
-              {item.desc.map((desc, index) => (
+              {item.desc.map((desc, id) => (
                 <>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
+                      borderTop: "1px solid #DEE1E3",
                     }}
                   >
                     <div
                       style={{
-                        borderTop: "1px solid #DEE1E3",
-                        padding: "10px 25px",
+                        padding: index === 1 && id === 1 ? "1px 0px 1px 20px" : "10px 0px 10px 20px",
                         display: "flex",
                         alignItems: "center",
                       }}
@@ -118,7 +122,18 @@ const Plans = () => {
                       {desc.icon}
                       <span style={{ marginLeft: "10px" }}>{desc.title}</span>
                     </div>
-                    <div></div>
+                    {desc?.tooltip && (
+                      <div>
+                        {" "}
+                        <TooltipComp
+                          title={desc?.tooltip?.title}
+                          icon={<InfoOutlined />}
+                          desc={desc?.tooltip?.desc}
+                          titleCcolor={"rgb(242,181,24)"}
+                          img={desc?.tooltip?.img}
+                        />
+                      </div>
+                    )}
                   </div>
                 </>
               ))}
@@ -151,8 +166,14 @@ const Plans = () => {
           </>
         ))}
       </div>
-      <div style={{display:'flex', justifyContent:'center', marginBottom:'40px'}}>
-        <span>*Scan up to 20 pages a month</span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "40px",
+        }}
+      >
+        <span style={{fontSize:'14px'}}>*Scan up to 20 pages a month</span>
       </div>
     </>
   );

@@ -1,16 +1,66 @@
-import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
 const Badges = () => {
-  const [percentage, setPercentage] = useState(0);
+  const matches = useMediaQuery("@media (max-width:975px)");
+  const badgeRef = useRef(null);
+  const observer = useRef(null);
+
+  const [timePercentage, settimePercentage] = useState(0);
+  const [userPercentage, setuserPercentage] = useState(0);
+  const [studentPercentage, setstudentPercentage] = useState(0);
+  const [users, setusers] = useState(0);
+
+  const observerCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          if (timePercentage < 75) {
+            settimePercentage(timePercentage + 1);
+          }
+        }, 50);
+
+        setTimeout(() => {
+          if (userPercentage < 100) {
+            setuserPercentage(userPercentage + 1);
+          }
+        }, 50);
+
+        setTimeout(() => {
+          if (users < 50) {
+            setusers(users + 5);
+          }
+        }, 550);
+
+        setTimeout(() => {
+          if (studentPercentage < 85) {
+            setstudentPercentage(studentPercentage + 1);
+          }
+        }, 50);
+      } else {
+        setstudentPercentage(0);
+        settimePercentage(0);
+        setuserPercentage(0);
+        setusers(0);
+      }
+    });
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      if (percentage < 75) {
-        setPercentage(percentage + 1);
-      }
-    }, 50);
-  }, [percentage]);
+    observer.current = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0,
+    });
+
+    observer.current.observe(badgeRef.current);
+
+    return () => {
+      observer.current.unobserve(badgeRef.current);
+    };
+  }, [userPercentage]);
+
   return (
     <>
       <div
@@ -41,183 +91,111 @@ const Badges = () => {
         </div>
       </div>
 
-      {/* <div className="container">
-        <div className="progress">
-          <span
-            className="title timer"
-            data-from="0"
-            data-to="85"
-            data-speed="1800"
+      <div
+        ref={badgeRef}
+        className="badges"
+        style={{
+          display: "flex",
+          flexDirection: matches && "column",
+          justifyContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap",
+          marginBottom:'5rem'
+        }}
+      >
+        <div className="app">
+          <div style={{ width: 150, marginLeft: 70, position: "relative" }}>
+            <CircularProgressbar
+              value={timePercentage}
+              text={`${timePercentage}%`}
+              style={{ position: "relative", color: "red", fontSize:'40px' }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                top: "62%",
+                left: "21%",
+                textAlign: "center",
+                color:'rgb(73, 149, 87)', fontWeight:'bold'
+              }}
+            >
+              Time Saved
+            </span>
+          </div>
+          <div
+            style={{ width: "20rem", textAlign: "center", margin: "10px 0px" }}
           >
-            85
-          </span>
-          <div className="overlay"></div>
-          <div className="left"></div>
-          <div className="right"></div>
-          <div className="left"></div>
-        </div>
-        <div className="progress">
-          <span
-            className="title timer"
-            data-from="0"
-            data-to="70"
-            data-speed="1500"
-          >
-            70
-          </span>
-          <div className="overlay"></div>
-          <div className="left"></div>
-          <div className="right"></div>
-        </div>
-
-        <div className="progress">
-          <span
-            className="title timer"
-            data-from="0"
-            data-to="70"
-            data-speed="1500"
-          >
-            70
-          </span>
-          <div className="overlay"></div>
-          <div className="left"></div>
-          <div className="right"></div>
+            <span style={{ textAlign: "center" }}>
+            Average time savings per writing project.
+            </span>
+          </div>
         </div>
 
-        <div className="progress">
-          <span
-            className="title timer"
-            data-from="0"
-            data-to="85"
-            data-speed="1800"
+        <div className="app" style={{ margin: matches && "2rem 0px" }}>
+          <div style={{ width: 150, marginLeft: 70, position: "relative" }}>
+            <CircularProgressbar
+              value={userPercentage}
+              text={`${users}+`}
+              style={{ position: "relative", color: "red" }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                top: "62%",
+                left: "35%",
+                textAlign: "center",
+                color:'rgb(73, 149, 87)', fontWeight:'bold'
+              }}
+            >
+              million
+            </span>
+          </div>
+          <div
+            style={{ width: "20rem", textAlign: "center", margin: "10px 0px" }}
           >
-            85
-          </span>
-          <div className="overlay"></div>
-          <div className="left"></div>
-          <div className="right"></div>
+            <span style={{ textAlign: "center" }}>
+            Trusted by millions worldwide.
+            </span>
+          </div>
         </div>
-      </div> */}
 
-      <div className="app">
-        <div style={{ width: 150, marginLeft: 70, position: "relative" }}>
-          <CircularProgressbar
-            value={percentage}
-            text={`${percentage}%`}
-            style={{ position: "relative", color: "red" }}
-          />
-          <span style={{ position: "absolute", top: "57%", left: "21%" }}>
-            Time Saved
-          </span>
+        <div className="app">
+          <div style={{ width: 150, marginLeft: 70, position: "relative" }}>
+            <CircularProgressbar
+              value={studentPercentage}
+              text={`${studentPercentage}%`}
+              style={{ position: "relative", color: "red" }}
+            />
+            <span style={{ position: "absolute", top: "62%", left: "23%", color:'rgb(73, 149, 87)', fontWeight:'bold' }}>
+              of students
+            </span>
+          </div>
+          <div
+            style={{ width: "20rem", textAlign: "center", margin: "10px 0px" }}
+          >
+            <span style={{ textAlign: "center" }}>
+              Who reported their grades improved after using QuillBot.
+            </span>
+          </div>
         </div>
       </div>
+
       <style jsx>{`
-        .container {
-          display: flex;
-          justify-content: space-around;
-          flex-wrap: wrap;
-          //  background-color: white;
-          //   height: 100vh;
-          align-items: center;
+        .badges {
+          animation: fadeInAnimation ease-in 1s;
+          animation-iteration-count: 1;
+          animation-fill-mode: forwards;
         }
 
-        .progress {
-          width: 200px;
-          height: 200px;
-          font-size: 30px;
-          color: black;
-          border-radius: 50%;
-          overflow: hidden;
-          position: relative;
-          //   background: #07070c;
-          text-align: center;
-          line-height: 200px;
-          margin: 20px;
-        }
-
-        .progress::after {
-          content: "%";
-        }
-
-        .progress .title {
-          position: relative;
-          z-index: 100;
-        }
-
-        .progress .overlay {
-          width: 50%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 1;
-          background-color: white;
-        }
-
-        .progress .left,
-        .progress .right {
-          width: 50%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          border: 10px solid #499557;
-          border-radius: 100px 0px 0px 100px;
-          border-right: 0;
-          transform-origin: right;
-        }
-
-        .progress .left {
-          animation: load1 1s linear forwards;
-        }
-
-        .progress:nth-of-type(2) .right,
-        .progress:nth-of-type(3) .right {
-          animation: load2 0.5s linear forwards 1s;
-        }
-
-        .progress:last-of-type .right,
-        .progress:first-of-type .right {
-          animation: load3 0.8s linear forwards 1s;
-        }
-
-        @keyframes load1 {
+        @keyframes fadeInAnimation {
           0% {
-            transform: rotate(0deg);
+            opacity: 0;
           }
-
           100% {
-            transform: rotate(180deg);
+            opacity: 1;
           }
         }
 
-        @keyframes load2 {
-          0% {
-            z-index: 100;
-            transform: rotate(180deg);
-          }
-
-          100% {
-            z-index: 100;
-            transform: rotate(270deg);
-          }
-        }
-
-        @keyframes load3 {
-          0% {
-            z-index: 100;
-            transform: rotate(180deg);
-          }
-
-          100% {
-            z-index: 100;
-            transform: rotate(315deg);
-          }
-        }
-
-        .CircularProgressbar .CircularProgressbar-path {
-          stroke: red !important;
-        }
       `}</style>
     </>
   );

@@ -1,19 +1,27 @@
+import styled from "@emotion/styled";
 import { Button } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 import React from "react";
 
-const useStyles = makeStyles({
-  button: {
-    backgroundColor: "#499557",
-    padding:'6px 40px',
-    "&:hover": {
-      backgroundColor: "#308140",
-    },
-  },
-});
+// const HtmlButton = styled(({ className, ...props }) => (
+//   <Button {...props} classes={{ popper: className }} />
+// ))(({ theme }) => ({
+//   [`&`]: {
+//     backgroundColor: "#499557",
+//     borderRadius: "20px",
+//     marginBottom: "70px",
+//     textTransform: "none",
+//     fontSize: "17px",
+//     padding: "6px 60px",
+//     boxShadow: "none",
+//     "&:hover": {
+//       backgroundColor: "rgb(7, 177, 77, 0.42)",
+//     },
+//   },
+// }));
 
 const Subheader = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
     <div>
       <h1
@@ -30,7 +38,7 @@ const Subheader = () => {
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
         <Button
-          className={classes.button}
+          // className={classes.button}
           variant="contained"
           style={{
             backgroundColor: "#499557",
@@ -38,14 +46,13 @@ const Subheader = () => {
             marginBottom: "70px",
             textTransform: "none",
             fontSize: "17px",
-            padding: "6px, 16px",
+            padding: "6px 60px",
             boxShadow: "none",
           }}
         >
           Upgrade to QuillBot Premium
         </Button>
       </div>
-
     </div>
   );
 };
