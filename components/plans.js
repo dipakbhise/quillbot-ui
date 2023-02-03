@@ -127,7 +127,7 @@ const Plans = () => {
                         {" "}
                         <TooltipComp
                           title={desc?.tooltip?.title}
-                          icon={<InfoOutlined />}
+                          icon={<InfoOutlined style={{color:'#C2C2C2'}} />}
                           desc={desc?.tooltip?.desc}
                           titleCcolor={"rgb(242,181,24)"}
                           img={desc?.tooltip?.img}
